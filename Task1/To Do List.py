@@ -17,6 +17,9 @@ def get_time():
     return  time_cr, str(datetime.now().date())
 
 
+
+
+
 def verif_task_existance():
     conn = db.connect('todo_db.db')
     global result
@@ -26,6 +29,7 @@ def verif_task_existance():
     print(result)
     cursor.close()
     conn.close()
+
 
 def get_task():
     global object_task
@@ -146,7 +150,7 @@ def open_toplevel():
         if toplevel_window is None or not toplevel_window.winfo_exists():
                 toplevel_window = ct.CTkToplevel(app)
                 toplevel_window.config(bg='#00131a')
-                toplevel_window.geometry("400x320")
+                toplevel_window.geometry("400x360")
                 toplevel_window.resizable(False,False)
                 design(display_detail_task())
                 toplevel_window.title(display_detail_task()[1].upper())
@@ -157,7 +161,43 @@ def open_toplevel():
     else :
         messagebox.showerror(title="Task Not Selected" ,message="Please Select a Task to do This Operation")
 def design(task):
-    frame_t=ct.CTkFrame(toplevel_window , width=374, height=294 , fg_color='#04252f' , bg_color='#00131a' )
+    def confirm_changes():
+        conn = db.connect("todo_db.db")
+        get_detail = entry_detail.get("0.0" , "end")
+        conn.execute("UPDATE todo_table SET detail = ? WHERE object  = ? " , ( get_detail,task[1] ,))
+        conn.commit()
+        conn.close()
+        btn_update = ct.CTkButton(frame_t, text=" DONE ", font=('Azonix', 15, 'bold'), text_color='#000000',
+                                    width=130, height=40, fg_color="#00cccc", hover_color="#008080"
+                                  , border_width=3, border_color="#000000", bg_color='#04252f' , hover = False,command=toplevel_window.destroy)
+        btn_update.place(x=127, y=287)
+        if  entry_detail.get("0.0" , "end").strip()  == "" :
+            entry_detail.insert("0.0","(Empty field)")
+        entry_detail.configure(state="disabled")
+
+    def destroy_btn(btn) :
+        btn.destroy()
+
+    def associate2functions(btn):
+        destroy_btn(btn)
+        confirm_changes()
+
+    def update_task():
+        if entry_detail.get("0.0", "end").strip() == "(Empty field)":
+            entry_detail.configure(state="normal")
+            entry_detail.delete("0.0", "end")
+
+        else :
+            entry_detail.configure(state="normal")
+
+        btn_update = ct.CTkButton(frame_t, text="CONFIRM CHANGES ", font=('Azonix', 15, 'bold'), text_color='#000000',
+                                  width=100, height=40, fg_color="#00cccc", hover_color="#008080"
+                                  , border_width=3, border_color="#000000", bg_color='#04252f', command=lambda : associate2functions(btn_update))
+        btn_update.place(x=90, y=287)
+
+
+
+    frame_t=ct.CTkFrame(toplevel_window , width=374, height=334 , fg_color='#04252f' , bg_color='#00131a' )
     frame_t.place(x=13 , y =14 )
     titre1 = ct.CTkLabel(frame_t, text= "Object : " , font=('Azonix' , 17 , 'bold') ,   )
     titre1.place(x=9 , y=10)
@@ -173,7 +213,7 @@ def design(task):
     if len(task[2]) > 1 :
         entry_detail.insert("0.0", task[2] )
     else :
-        entry_detail.insert("0.0", "(Empty field) "  )
+        entry_detail.insert("0.0", "(Empty field)"  )
 
     entry_detail.configure(state="disabled")
     entry_detail.place(x=10, y=95)
@@ -184,11 +224,10 @@ def design(task):
     text_d = (ct.CTkLabel(frame_d,  text= "Made it In : " + task[4]+" " + task[3] , font=('Azonix' , 13) ,width=340, height=21, fg_color='#2a383c', bg_color='#2a383c'))
     text_d.place(x=2, y=2)
 
-
-
-
-
-
+    btn_update = ct.CTkButton(frame_t, text="UPDATE IT ", font=('Azonix', 15, 'bold'), text_color='#000000',
+                              width=100, height=40, fg_color="#00cccc", hover_color="#008080"
+                              , border_width=3, border_color="#000000", bg_color='#04252f', command=update_task)
+    btn_update.place(x=126, y=287)
 
 
 #app
@@ -266,12 +305,12 @@ get_objects()
 
 btn_del=ct.CTkButton(tasks_frame , text="DISPLAY TASK" , font=('Azonix',15, 'bold') , text_color='#000000',  width=100 , height=40 , fg_color= "#00cccc" ,hover_color= "#008080"
                  ,border_width= 3 , border_color= "#000000" , bg_color='#04252f' , command=open_toplevel)
-btn_del.place(x=13 , y=370)
+btn_del.place(x=13 , y=365)
 toplevel_window = None
 
 btn_dis=ct.CTkButton(tasks_frame , text="DELETE TASK" , font=('Azonix',15, 'bold') , text_color='#000000',  width=100 , height=40 , fg_color= "#00cccc" ,hover_color= "#008080"
                  ,border_width= 3 , border_color= "#000000" , bg_color='#04252f' , command=del_task)
-btn_dis.place(x=165 , y=370)
+btn_dis.place(x=165 , y=365)
 
 
 
