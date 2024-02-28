@@ -28,7 +28,7 @@ Python app generates strong, random passwords. Users specify length. Utilizes ra
 - [@ELhadratiOth](https://github.com/ELhadratiOth)
 
 
-## Contact Or Suggestions
+## For Contact Or Suggestions
 
 Email Account : othmanelhadrati@gmail.com 
 Linkden Account : Othman El HADRATI
