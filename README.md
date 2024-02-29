@@ -23,7 +23,7 @@ Python app generates strong, random passwords. Users specify length. Utilizes ra
 
 
 
-## Authors
+## Author
 
 - [@ELhadratiOth](https://github.com/ELhadratiOth)
 
