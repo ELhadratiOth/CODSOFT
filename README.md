@@ -23,14 +23,15 @@ Python app generates strong, random passwords. Users specify length. Utilizes ra
 
 
 
-## Authors
+## Author
 
 - [@ELhadratiOth](https://github.com/ELhadratiOth)
 
 
-## Contact Or Suggestions
+## For Contact Or Suggestions
 
 Email Account : othmanelhadrati@gmail.com 
-Linkden Account : Othman El HADRATI
+Linkden Account : Othman El HADRATI - [@Othman El HADRATI](https://www.linkedin.com/in/othman-el-hadrati-91aa98243/)
+
 
 
