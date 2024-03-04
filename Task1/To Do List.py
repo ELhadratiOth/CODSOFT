@@ -4,7 +4,6 @@ from tkinter import messagebox
 from PIL import Image
 import sqlite3 as db
 from datetime import datetime
-import os
 
 #function used
 object_task =""
@@ -26,7 +25,6 @@ def verif_task_existance():
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM todo_table WHERE object = ?", (object_task,))
     result = cursor.fetchone()
-    print(result)
     cursor.close()
     conn.close()
 
@@ -95,7 +93,10 @@ def remove_tasks():
     responce = messagebox.askokcancel(title="Remove All Tasks", message=" Are You sure ?")
     if responce == True :
         try :
-            os.remove("todo_db.db")
+            conn = db.connect('todo_db.db')
+            conn.execute("DELETE FROM todo_table ")
+            conn.commit()
+            conn.close()
             listbox.delete(0,tk.END)
             listbox.insert(tk.END, "No Task exists")
 

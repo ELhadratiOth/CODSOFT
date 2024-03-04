@@ -42,7 +42,6 @@ def result():
     screen.configure(state="normal")
     try:
         screen.delete(0,len(operation))
-        print(eval(operation))
         result = eval(operation)
         screen.insert(0,result)
     except Exception :
